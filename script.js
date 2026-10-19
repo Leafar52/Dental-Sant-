@@ -73,3 +73,41 @@ document.querySelectorAll('[data-doctor]').forEach((button) => setupDialog(docto
 
 document.querySelectorAll('dialog').forEach((dialog) => dialog.addEventListener('close', () => document.body.classList.remove('dialog-open')));
 document.querySelector('[data-year]').textContent = new Date().getFullYear();
+
+const videoDialog = document.querySelector('#video-dialog');
+const videoFrame = videoDialog.querySelector('[data-video-frame]');
+const miniPlayer = document.querySelector('[data-mini-player]');
+const miniFrame = miniPlayer.querySelector('[data-mini-frame]');
+const videoUrl = 'https://www.youtube.com/embed/NILQDk-JZRM?autoplay=1&rel=0&modestbranding=1';
+
+function stopVideo() {
+  videoFrame.src = '';
+  miniFrame.src = '';
+  miniPlayer.classList.remove('is-visible');
+}
+
+document.querySelector('[data-video-open]').addEventListener('click', () => {
+  videoFrame.src = videoUrl;
+  videoDialog.showModal();
+});
+
+document.querySelector('[data-video-close]').addEventListener('click', () => {
+  videoDialog.close();
+  stopVideo();
+});
+
+document.querySelector('[data-video-minimize]').addEventListener('click', () => {
+  miniFrame.src = videoUrl;
+  videoDialog.close();
+  miniPlayer.classList.add('is-visible');
+});
+
+document.querySelector('[data-video-restore]').addEventListener('click', () => {
+  videoFrame.src = videoUrl;
+  miniPlayer.classList.remove('is-visible');
+  videoDialog.showModal();
+});
+
+document.querySelector('[data-video-dismiss]').addEventListener('click', stopVideo);
+videoDialog.addEventListener('cancel', stopVideo);
+videoDialog.addEventListener('click', (event) => { if (event.target === videoDialog) { videoDialog.close(); stopVideo(); } });
