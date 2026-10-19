@@ -32,6 +32,13 @@
     .video-frame{aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}.video-frame iframe{width:100%;height:100%;border:0}
     .video-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 4px 0;color:#dff2e6;font-size:12px}.video-toolbar div{display:flex;gap:8px}.video-action{border:1px solid #ffffff33;background:#ffffff12;color:#fff;border-radius:999px;padding:9px 13px;cursor:pointer}.video-action:hover{background:var(--aqua);color:var(--green-deep)}
     .mini-player{position:fixed;right:22px;bottom:22px;width:300px;z-index:70;background:#061d13;border:1px solid #ffffff33;border-radius:16px;padding:8px;box-shadow:0 18px 48px #00190c66;display:none}.mini-player.is-visible{display:block}.mini-frame{aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}.mini-frame iframe{width:100%;height:100%;border:0}.mini-controls{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 3px 1px;color:#dff2e6;font-size:11px}.mini-controls button{border:0;background:transparent;color:inherit;cursor:pointer}.mini-controls button:hover{color:var(--aqua)}
+    .main-nav a.is-active:not(.button){color:var(--aqua);opacity:1}
+    .button{position:relative;isolation:isolate;overflow:hidden;background:var(--aqua)}.button::before{content:"";position:absolute;inset:-65%;z-index:-1;background:radial-gradient(circle at var(--shine-x,50%) var(--shine-y,50%),rgba(255,255,255,.48),transparent 27%);opacity:0;transition:opacity .3s ease}.button:hover::before,.button:focus-visible::before{opacity:1}.button-light{background:var(--white)}
+    .treatment-card::before{content:"";position:absolute;inset:0;z-index:3;border:1px solid transparent;border-radius:inherit;background:conic-gradient(from var(--beam-angle,0deg),transparent 0 70%,rgba(0,255,183,.92) 82%,transparent 94%) border-box;mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:0;pointer-events:none;transition:opacity .3s ease}.treatment-card:hover::before,.treatment-card:focus-visible::before{opacity:1;animation:border-beam 4.8s linear infinite}.treatment-index,.card-arrow,.treatment-name{z-index:4}.card-arrow{transition:transform .25s ease,background .25s ease,color .25s ease}
+    .image-reveal img{filter:blur(12px) saturate(.72);transform:scale(1.035);transition:filter 1.15s cubic-bezier(.2,.8,.2,1),transform 1.4s cubic-bezier(.2,.8,.2,1)}.image-reveal.is-loaded img{filter:saturate(.86);transform:none}.experience-visual.image-reveal img{filter:blur(12px) saturate(.68)}.experience-visual.image-reveal.is-loaded img{filter:saturate(.84)}
+    .play-button::before,.play-button::after{content:"";position:absolute;inset:-11px;border:1px solid #00ffb777;border-radius:50%;animation:play-orb 3.2s ease-out infinite;pointer-events:none}.play-button::after{inset:-22px;animation-delay:-1.6s;opacity:.7}.play-button{isolation:isolate}
+    @keyframes border-beam{to{--beam-angle:360deg}}@property --beam-angle{syntax:"<angle>";inherits:false;initial-value:0deg}@keyframes play-orb{0%{transform:scale(.86);opacity:0}25%{opacity:.9}100%{transform:scale(1.18);opacity:0}}
+    @media (prefers-reduced-motion:reduce){.treatment-card:hover::before,.treatment-card:focus-visible::before,.play-button::before,.play-button::after{animation:none}.image-reveal img{filter:none;transform:none;transition:none}.button::before{display:none}}
     @media (max-width:720px){.experience-section{padding:78px 0}.experience-grid{gap:45px}.experience-visual{min-height:340px}.mini-player{right:12px;bottom:12px;width:min(230px,calc(100vw - 24px))}.video-toolbar{align-items:flex-start;flex-direction:column}.video-toolbar div{width:100%}.video-toolbar .video-action{flex:1}}
   </style>
 </head>
@@ -73,7 +80,7 @@
           </div>
           <div class="hero-note"><span class="spark" aria-hidden="true">✦</span> Especialistas em todas as fases do seu sorriso</div>
         </div>
-        <div class="hero-visual reveal reveal-delay" aria-label="Profissional da Dental Santé em uma clínica">
+        <div class="hero-visual reveal reveal-delay image-reveal" aria-label="Profissional da Dental Santé em uma clínica">
           <div class="hero-arch"></div>
           <div class="hero-image-wrap">
             <img src="https://institutodentalsante.com.br/wp-content/uploads/elementor/thumbs/Imagem-do-WhatsApp-de-2025-03-12-as-09.25.03_34a7c783-1-r2rf81o8pwblhz91ddptjzi902xxjkdn2b3esw30ws.webp" alt="Dra. Millena Gomes, especialista em Periodontia" />
@@ -145,7 +152,7 @@
             <div><span>03</span><strong>Acompanhamento próximo</strong><p>Você nunca atravessa o tratamento sozinho.</p></div>
           </div>
         </div>
-        <div class="experience-visual reveal reveal-delay">
+        <div class="experience-visual reveal reveal-delay image-reveal">
           <div class="experience-orbit orbit-one"></div><div class="experience-orbit orbit-two"></div>
           <img src="https://img.youtube.com/vi/NILQDk-JZRM/hqdefault.jpg" alt="Capa do vídeo institucional da Dental Santé" />
           <button class="play-button" type="button" data-video-open aria-label="Assistir ao vídeo institucional"><span>▶</span></button>

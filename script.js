@@ -111,3 +111,51 @@ document.querySelector('[data-video-restore]').addEventListener('click', () => {
 document.querySelector('[data-video-dismiss]').addEventListener('click', stopVideo);
 videoDialog.addEventListener('cancel', stopVideo);
 videoDialog.addEventListener('click', (event) => { if (event.target === videoDialog) { videoDialog.close(); stopVideo(); } });
+
+// Library-inspired motion: image dissolve, border beam, pointer light and active navigation.
+document.querySelectorAll('.hero-visual, .experience-visual, .doctor-card').forEach((wrapper) => {
+  wrapper.classList.add('image-reveal');
+  const image = wrapper.querySelector('img');
+  if (!image) return;
+  const markLoaded = () => wrapper.classList.add('is-loaded');
+  if (image.complete) markLoaded();
+  image.addEventListener('load', markLoaded, { once: true });
+  image.addEventListener('error', markLoaded, { once: true });
+});
+
+document.querySelectorAll('.button').forEach((button) => {
+  button.addEventListener('pointermove', (event) => {
+    const bounds = button.getBoundingClientRect();
+    button.style.setProperty('--shine-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+    button.style.setProperty('--shine-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+  });
+});
+
+document.querySelectorAll('.treatment-card').forEach((card) => {
+  card.addEventListener('pointermove', (event) => {
+    const bounds = card.getBoundingClientRect();
+    const x = event.clientX - bounds.left - bounds.width / 2;
+    const y = event.clientY - bounds.top - bounds.height / 2;
+    const angle = Math.atan2(y, x) * (180 / Math.PI) + 90;
+    card.style.setProperty('--beam-angle', `${angle}deg`);
+  });
+});
+
+const navLinks = [...mainNav.querySelectorAll('a[href^="#"]')];
+const navSections = navLinks
+  .map((link) => ({ link, section: document.querySelector(link.getAttribute('href')) }))
+  .filter(({ section }) => section);
+
+const navObserver = new IntersectionObserver((entries) => {
+  const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+  if (!visible.length) return;
+  const active = navSections.find(({ section }) => section === visible[0].target);
+  navSections.forEach(({ link }) => {
+    const isActive = active?.link === link;
+    link.classList.toggle('is-active', isActive);
+    if (isActive) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+}, { rootMargin: '-38% 0px -50%', threshold: [0, .2, .5] });
+
+navSections.forEach(({ section }) => navObserver.observe(section));
